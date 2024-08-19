@@ -96,11 +96,6 @@ class CheckboxMac(CheckBox):
 
 
 def client_code(factory: GUIFactory) -> None:
-    """
-    The client code works with factories and products only through abstract
-    types: AbstractFactory and AbstractProduct. This lets you pass any factory
-    or product subclass to the client code without breaking it.
-    """
     product_a = factory.create_button()
     product_b = factory.create_checkbox()
 
