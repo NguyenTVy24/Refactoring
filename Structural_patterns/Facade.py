@@ -1,88 +1,54 @@
-from __future__ import annotations
+class HeThongTimChuyenBay:
+    @staticmethod
+    def tim_chuyen_bay(diem_di: str, diem_den: str) -> str:
+        # Giả sử logic phức tạp để tìm chuyến bay
+        return f"Đã tìm thấy chuyến bay từ {diem_di} đến {diem_den}"
 
 
-class Facade:
-    """
-    The Facade class provides a simple interface to the complex logic of one or
-    several subsystems. The Facade delegates the client requests to the
-    appropriate objects within the subsystem. The Facade is also responsible for
-    managing their lifecycle. All of this shields the client from the undesired
-    complexity of the subsystem.
-    """
-
-    def __init__(self, subsystem1: Subsystem1, subsystem2: Subsystem2) -> None:
-        """
-        Depending on your application's needs, you can provide the Facade with
-        existing subsystem objects or force the Facade to create them on its
-        own.
-        """
-
-        self._subsystem1 = subsystem1 or Subsystem1()
-        self._subsystem2 = subsystem2 or Subsystem2()
-
-    def operation(self) -> str:
-        """
-        The Facade's methods are convenient shortcuts to the sophisticated
-        functionality of the subsystems. However, clients get only to a fraction
-        of a subsystem's capabilities.
-        """
-
-        results = []
-        results.append("Facade initializes subsystems:")
-        results.append(self._subsystem1.operation1())
-        results.append(self._subsystem2.operation1())
-        results.append("Facade orders subsystems to perform the action:")
-        results.append(self._subsystem1.operation_n())
-        results.append(self._subsystem2.operation_z())
-        return "\n".join(results)
+class HeThongDatVe:
+    @staticmethod
+    def dat_ve(thong_tin_chuyen_bay: str) -> str:
+        # Giả sử logic phức tạp để đặt vé
+        return f"Đã đặt vé thành công: {thong_tin_chuyen_bay}"
 
 
-class Subsystem1:
-    """
-    The Subsystem can accept requests either from the facade or client directly.
-    In any case, to the Subsystem, the Facade is yet another client, and it's
-    not a part of the Subsystem.
-    """
-
-    def operation1(self) -> str:
-        return "Subsystem1: Ready!"
-
-    # ...
-
-    def operation_n(self) -> str:
-        return "Subsystem1: Go!"
+class HeThongThanhToan:
+    @staticmethod
+    def thanh_toan(so_tien: float) -> str:
+        # Giả sử logic phức tạp để thanh toán
+        return f"Đã thanh toán số tiền: {so_tien} VND"
 
 
-class Subsystem2:
-    """
-    Some facades can work with multiple subsystems at the same time.
-    """
-
-    def operation1(self) -> str:
-        return "Subsystem2: Get ready!"
-
-    # ...
-
-    def operation_z(self) -> str:
-        return "Subsystem2: Fire!"
+class HeThongEmail:
+    @staticmethod
+    def gui_email_xac_nhan(thong_tin_ve: str) -> str:
+        # Giả sử logic phức tạp để gửi email xác nhận
+        return f"Đã gửi email xác nhận: {thong_tin_ve}"
 
 
-def client_code(facade: Facade) -> None:
-    """
-    The client code works with complex subsystems through a simple interface
-    provided by the Facade. When a facade manages the lifecycle of the
-    subsystem, the client might not even know about the existence of the
-    subsystem. This approach lets you keep the complexity under control.
-    """
+class DatVe:
+    def __init__(self):
+        self.he_thong_tim_chuyen_bay = HeThongTimChuyenBay()
+        self.he_thong_dat_ve = HeThongDatVe()
+        self.he_thong_thanh_toan = HeThongThanhToan()
+        self.he_thong_email = HeThongEmail()
 
-    print(facade.operation(), end="")
+    def dat_ve_may_bay(self, diem_di: str, diem_den: str, so_tien: float) -> str:
+        # Sử dụng các hệ thống con thông qua Mặt Tiền để thực hiện toàn bộ quy trình
+
+        ket_qua = list()
+        ket_qua.append(self.he_thong_tim_chuyen_bay.tim_chuyen_bay(diem_di, diem_den))
+        ket_qua.append(self.he_thong_dat_ve.dat_ve(ket_qua[-1]))
+        ket_qua.append(self.he_thong_thanh_toan.thanh_toan(so_tien))
+        ket_qua.append(self.he_thong_email.gui_email_xac_nhan(ket_qua[-2]))
+        return "\n".join(ket_qua)
+
+
+def ma_khach_hang():
+    mat_tien = DatVe()
+    ket_qua = mat_tien.dat_ve_may_bay("Hà Nội", "TP.HCM", 2000000)
+    print(ket_qua)
 
 
 if __name__ == "__main__":
-    # The client code may have some of the subsystem's objects already created.
-    # In this case, it might be worthwhile to initialize the Facade with these
-    # objects instead of letting the Facade create new instances.
-    subsystem1 = Subsystem1()
-    subsystem2 = Subsystem2()
-    facade = Facade(subsystem1, subsystem2)
-    client_code(facade)
+    ma_khach_hang()
