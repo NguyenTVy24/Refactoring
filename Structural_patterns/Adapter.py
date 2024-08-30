@@ -12,7 +12,8 @@ class Adaptee:
     Adaptee sử dụng nhiệt độ theo độ F.
     """
 
-    def specific_request(self) -> str:
+    @staticmethod
+    def specific_request() -> str:
         return "Nhiệt độ hiện tại là 77°F"
 
 
@@ -27,8 +28,8 @@ class Adapter(Target, Adaptee):
         return f"Adapter: Nhiệt độ hiện tại là {celsius:.2f}°C"
 
 
-def client_code(target: "Target") -> None:
-    print(target.request(), end="")
+def client_code(_target: "Target") -> None:
+    print(_target.request(), end="")
 
 
 if __name__ == "__main__":
